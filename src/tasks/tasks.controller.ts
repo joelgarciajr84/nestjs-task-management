@@ -1,14 +1,21 @@
 // tslint:disable: comment-format
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateTaskDTO } from './dto/create-task.dto';
+import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskValidationPipe } from './pipes/task-status-validation.pipe';
 import { Task } from './task.entity';
+import { TaskStatus } from './tasks-status-enum';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
 export class TasksController {
 
     constructor(private readonly taskService: TasksService){}
+
+    @Get()
+    public async getTasks(@Query(ValidationPipe) filterDTO: GetTasksFilterDto): Promise<Array<Task>> {
+       return this.taskService.getTasks(filterDTO);
+    }
 
     @Get('/:id')
     public async getTaskById(@Param('id', ParseIntPipe) id: number): Promise<Task> {
@@ -24,7 +31,8 @@ export class TasksController {
     @Patch(':id/status')
     public async updateTaskStatus(
         @Param('id', ParseIntPipe) id: number,
-        @Body('status', TaskValidationPipe)): Promise<Task> {
+        @Body('status', TaskValidationPipe)
+        status: TaskStatus): Promise<Task> {
             return this.taskService.updateTaskStatus(id, status)
     }
     @Delete('/:id')
