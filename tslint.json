@@ -40,6 +40,7 @@
         "promise-function-async": true,
         "await-promise": true,
         "ban-comma-operator": true,
+        "no-inferrable-types": true,
         "curly": [
             true,
             "ignore-same-line"
@@ -64,7 +65,7 @@
         "no-unsafe-finally": true,
         "restrict-plus-operands": true,
         "triple-equals": true,
-        "eofline": false,
+        "eofline": true,
         "quotemark": [
             true,
             "single"
@@ -81,7 +82,7 @@
             "always"
         ],
         "prefer-readonly": true,
-        "trailing-comma": false,
+        "trailing-comma": true,
         "class-name": true,
         "comment-format": [
             true,
