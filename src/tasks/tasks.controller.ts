@@ -1,5 +1,6 @@
 // tslint:disable: comment-format
-import { Body, Controller, Get, Param, Post, ParseIntPipe, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { CreateTaskDTO } from './dto/create-task.dto';
 import { Task } from './task.entity';
 import { TasksService } from './tasks.service';
 
@@ -15,12 +16,13 @@ export class TasksController {
 
     @Post()
     @UsePipes(ValidationPipe)
-    public async createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task>{
+    public async createTask(@Body() createTaskDto: CreateTaskDTO): Promise<Task>{
         return this.taskService.createTask(createTaskDto);
     }
-    @Delete('/:id')
-    public deleteTaskById(@Param('id') id: string): void {
-         this.taskService.deleteTaskById(id);
-    }
+
+    // @Delete('/:id')
+    // public deleteTaskById(@Param('id') id: string): void {
+    //      this.taskService.deleteTaskById(id);
+    // }
 
 }
