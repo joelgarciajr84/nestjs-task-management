@@ -11,8 +11,10 @@ import { TaskStatus } from './tasks-status-enum';
 export class TasksService {
     constructor(@InjectRepository(TaskRepository)
         private readonly taskRepository: TaskRepository
-    ){
-        
+    ){}
+
+    public async createTask(createTaskDto: CreateTaskDTO): Promise<Task> {
+        return this.taskRepository.createTask(createTaskDto);
     }
 
     public async getTaskById(id: number): Promise<Task> {
@@ -25,32 +27,25 @@ export class TasksService {
         return found;
     }
 
-    public async createTask(createTaskDto: CreateTaskDTO): Promise<Task>{
-        const task: Task = new Task();
-        const { title, description } = createTaskDto;
-        task.title = title;
-        task.description = description;
-        task.status = TaskStatus.OPEN;
-        await task.save();
-        return task;
+   public async updateTaskStatus(id: number, status: TaskStatus): Promise<Task>{
+       const task = await this.getTaskById(id);
+
+       if (!task) {
+           throw new NotFoundException(`Task with ID ${id} not found`);
+       }
+
+       task.status = status;
+       await task.save();
+       return task;
+
+   }
+
+    public async deleteTask(id: number): Promise<void>{
+        const result =  await this.taskRepository.delete(id);
+
+        if(result.affected === 0){
+            throw new NotFoundException(`Task with ID ${id} not found`);
+        }
     }
-    // private readonly tasks: Array<Task> = [];
 
-    // public getAllTasks(): Array<Task>{
-    //     return this.tasks;
-    // }
-
-
-
-    // public createTask(title: string, description: string): Task {
-    //     const task: Task = {
-    //         id: uuidv4(),
-    //         title,
-    //         description,
-    //         status: TaskStatus.OPEN
-    //     };
-        
-    //     this.tasks.push(task);
-    //     return task;
-    // }
 }
