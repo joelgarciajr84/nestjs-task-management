@@ -18,5 +18,9 @@ export class TasksController {
     public async createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task>{
         return this.taskService.createTask(createTaskDto);
     }
+    @Delete('/:id')
+    public deleteTaskById(@Param('id') id: string): void {
+         this.taskService.deleteTaskById(id);
+    }
 
 }
