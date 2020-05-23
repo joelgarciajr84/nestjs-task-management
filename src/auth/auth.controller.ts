@@ -18,4 +18,6 @@ export class AuthController {
     public async signIn(@Body(ValidationPipe) authCrendentialsDto: AuthCrendentialsDto): Promise<AccessToken> {
         return this.authService.signIn(authCrendentialsDto);
     }
+
+    
 }
