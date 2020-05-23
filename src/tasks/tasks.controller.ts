@@ -1,5 +1,5 @@
-// tslint:disable: comment-format
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateTaskDTO } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskValidationPipe } from './pipes/task-status-validation.pipe';
@@ -8,6 +8,7 @@ import { TaskStatus } from './tasks-status-enum';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
+@UseGuards(AuthGuard())
 export class TasksController {
 
     constructor(private readonly taskService: TasksService){}
