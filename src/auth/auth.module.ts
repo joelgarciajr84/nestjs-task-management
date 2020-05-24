@@ -11,9 +11,9 @@ import { UserRepository } from './user.repository';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: 'SECRET_EXAMPLE',
+      secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: 3600,
+        expiresIn: process.env.TASK_MANAGEMENT_EXPIRES_IN,
       }
     }),
     TypeOrmModule.forFeature([UserRepository])
